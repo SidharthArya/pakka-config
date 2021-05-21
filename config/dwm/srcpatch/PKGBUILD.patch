@@ -1,0 +1,14 @@
+--- PKGBUILD    2019-05-27 12:48:12.000000000 +0530
++++ PKGBUILD-new        2021-05-21 17:07:29.319231643 +0530
+@@ -22,6 +22,12 @@
+
+ prepare() {
+   cd "$srcdir/$pkgname-$pkgver"
++  echo Patching
++  for i in $(ls $srcdir/../patches);
++  do
++    patch < "$srcdir/../patches/$i"
++    echo "Patched $i"
++  done
+   cp "$srcdir/config.h" config.h
+ }

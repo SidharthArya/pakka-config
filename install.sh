@@ -5,11 +5,26 @@ install() {
 	i=$1;
 if ! [ -f $i.tar.gz ];
 then
-wget https://aur.archlinux.org/cgit/aur.git/snapshot/$i.tar.gz
-tar -zxvf $i.tar.gz
+	wget https://aur.archlinux.org/cgit/aur.git/snapshot/$i.tar.gz
+	tar -zxvf $i.tar.gz
+	cd $i/
+	if [ -d ../config/$i/srcpatch ];
+	then
+		echo "Patching..."
+		for j in $(ls "../config/$i/srcpatch");
+		do
+			patch < "../config/$i/srcpatch/$j" &&
+				echo "Patched $j !" || echo "Failed Patch $j !"
+		done
+	fi
+else
+	cd $i/
 fi
-cp -rv config/$i/* $i/
-cd $i/
+if [ -d ../config/$i/copy ];
+then
+	cp -rv ../config/$i/copy/* ./
+fi
+
 makepkg -sci || {
 	read -p "Do you want to disable verify checks? " prompt;
 	if [[ $prompt == "y" ]];
