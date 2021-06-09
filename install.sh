@@ -18,7 +18,17 @@ then
 		done
 	fi
 else
+	tar -zxvf $i.tar.gz
 	cd $i/
+	if [ -d ../config/$i/srcpatch ];
+	then
+		echo "Patching..."
+		for j in $(ls "../config/$i/srcpatch");
+		do
+			patch < "../config/$i/srcpatch/$j" &&
+				echo "Patched $j !" || echo "Failed Patch $j !"
+		done
+	fi
 fi
 if [ -d ../config/$i/copy ];
 then
