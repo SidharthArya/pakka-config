@@ -5,7 +5,7 @@ install() {
 	i=$1;
 if ! [ -f $i.tar.gz ];
 then
-	wget https://aur.archlinux.org/cgit/aur.git/snapshot/$i.tar.gz
+	curl --output $i.tar.gz https://aur.archlinux.org/cgit/aur.git/snapshot/$i.tar.gz
 	tar -zxvf $i.tar.gz
 	cd $i/
 	if [ -d ../config/$i/srcpatch ];
